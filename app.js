@@ -19,30 +19,33 @@ const server = http.createServer((req, res) => {
       switch (pathRoot) {
         case "math":
 
-          let equationObj = {
-            add: '+',
-            subtract: '-',
-            multiply: '*',
-            devide: '/'
+          let operator = pathArr[2];
+          let num1 = parseFloat(pathArr[3]);
+          let num2 = parseFloat(pathArr[4]);
+          let answer;
+
+          if(operator === 'add') {
+            answer = num1 + num2;
+          } else if(operator === 'subtract') {
+            answer = num1 - num2;
+          } else if(operator === 'multiply') {
+            answer = num1 * num2;
+          } else if(operator === 'devide') {
+            answer = num1 / num2;
+          } else if(operator === 'exponent') {
+            answer = Math.pow(num1, num2);
+          } else if(operator === 'squareroot') {
+            answer = Math.sqrt(num1)
+          } else {
+            answer = 'error';
           }
 
-          let operatorStr = pathArr[2]
-          let operator = equationObj[operatorStr];
-
-          if (operator) {
-            let equation = pathArr[3] + operator + pathArr[4];
-            let answer;
-            try {
-              answer = eval(equation).toString() + '\n';
-            }
-            catch(e) {
-              res.end(`Err`);
-            }
-            res.end(answer);
-          }
-
+          res.end(`${answer}\n`)
 
           break;
+
+        
+
         default:
           res.statusCode = 404;
           res.end(`Err`);
