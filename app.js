@@ -5,6 +5,7 @@ const qs = require('querystring');
 const md5 = require('md5');
 const moment = require('moment');
 const wd = require('word-definition');
+const profanity = require('profanity-util');
 
 const server = http.createServer((req, res) => {
 
@@ -133,6 +134,16 @@ const server = http.createServer((req, res) => {
           wd.getDef(pathArr[2], "fr", null, (definition) => {
             res.end(`${JSON.stringify(definition)}`)
           });
+          break;
+
+// ------------------------------ Profanity filter -----------------------------
+        case "filter":
+
+          let strToFilter = decodeURI(pathArr[2]);
+          let filtered = profanity.purify(strToFilter);
+
+          res.end(`${filtered[0]}\n`)
+
           break;
 
 // -------------------------------- -------- -----------------------------------
