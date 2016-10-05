@@ -76,6 +76,21 @@ const server = http.createServer((req, res) => {
           res.end(`${age}`);
           break;
 
+// ------------------------------ Magic 8 ball ---------------------------------
+        case "8ball":
+          let answers = {
+            1: "Yes",
+            2: "No",
+            3: "Maybe",
+            4: "Don't count on it",
+            5: "Probably",
+            6: "Ask again later"
+          }
+          let randNum = Math.floor(Math.random() * 6 + 1);
+          let answerBall = answers[randNum];
+
+          res.end(`${answerBall}\n`)
+          break;
 // -------------------------------- -------- -----------------------------------
         default:
           res.statusCode = 404;
