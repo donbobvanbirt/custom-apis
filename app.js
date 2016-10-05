@@ -13,21 +13,23 @@ const server = http.createServer((req, res) => {
   switch (method) {
     case 'GET':
 
-      let pathArr = url.split('/').map(num => {
-        if(num.toLowerCase() === 'pi') {
-          return Math.PI;
-        } else if(num.toLowerCase() === 'e') {
-          return Math.E;
-        } else {
-          return num;
-        }
-      });
+      let pathArr = url.split('/');
 
       let pathRoot = pathArr[1];
 
 // ---------------------------------- Math -------------------------------------
       switch (pathRoot) {
         case "math":
+
+          pathArr = pathArr.map(num => {
+            if(num.toLowerCase() === 'pi') {
+              return Math.PI;
+            } else if(num.toLowerCase() === 'e') {
+              return Math.E;
+            } else {
+              return num;
+            }
+          });
 
           let operator = pathArr[2];
           let num1 = parseFloat(pathArr[3]);
@@ -113,6 +115,22 @@ const server = http.createServer((req, res) => {
         case "define":
 
           wd.getDef(pathArr[2], "en", null, (definition) => {
+            res.end(`${JSON.stringify(definition)}`)
+          });
+          break;
+
+// ---------------------------- German Dictionary ------------------------------
+        case "definieren":
+
+          wd.getDef(pathArr[2], "de", null, (definition) => {
+            res.end(`${JSON.stringify(definition)}`)
+          });
+          break;
+
+// ---------------------------- French Dictionary ------------------------------
+        case "definir":
+
+          wd.getDef(pathArr[2], "fr", null, (definition) => {
             res.end(`${JSON.stringify(definition)}`)
           });
           break;
