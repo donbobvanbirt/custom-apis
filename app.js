@@ -6,6 +6,8 @@ const md5 = require('md5');
 const moment = require('moment');
 const wd = require('word-definition');
 const profanity = require('profanity-util');
+const sc = require('spellchecker')
+
 
 const server = http.createServer((req, res) => {
 
@@ -146,6 +148,21 @@ const server = http.createServer((req, res) => {
 
           break;
 
+// ------------------------------- SpellCheck ------------------------------- //
+        case "spellcheck":
+
+          let strToCheck = decodeURI(pathArr[2]);
+          let spellRec = '';
+
+          if(sc.isMisspelled(strToCheck)) {
+            spellRec = sc.getCorrectionsForMisspelling(strToCheck)
+          } else {
+            spellRec = "No spelling errors found";
+          }
+
+          res.end(`${ JSON.stringify(spellRec) }`)
+          break;
+
 // -------------------------------- -------- -----------------------------------
         default:
           res.statusCode = 404;
@@ -157,20 +174,6 @@ const server = http.createServer((req, res) => {
       res.statusCode = 404;
       res.end(`Not found`);
   }
-
-  // switch (path) {
-  //   case '/math':
-  //
-  //       res.end( JSON.stringify(path) );
-  //
-  //     // res.end('math \n');
-  //     break;
-  //   default:
-  //     let pathStr = JSON.stringify(path);
-  //     res.statusCode = 404;
-  //     res.end(`Not found`)
-  //
-  // }
 
 });
 
