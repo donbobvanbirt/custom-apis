@@ -20,6 +20,7 @@
   "homepage": "https://github.com/donbobvanbirt/custom-apis#readme",
   "dependencies": {
     "md5": "^2.2.1",
-    "moment": "^2.15.1"
+    "moment": "^2.15.1",
+    "word-definition": "^2.1.2"
   }
 }

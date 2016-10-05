@@ -4,6 +4,7 @@ const http = require('http');
 const qs = require('querystring');
 const md5 = require('md5');
 const moment = require('moment');
+const wd = require('word-definition');
 
 const server = http.createServer((req, res) => {
 
@@ -107,6 +108,15 @@ const server = http.createServer((req, res) => {
 
           res.end(`${answerBall}\n`)
           break;
+
+// ------------------------------- Dictionary ----------------------------------
+        case "define":
+
+          wd.getDef(pathArr[2], "en", null, (definition) => {
+            res.end(`${JSON.stringify(definition)}`)
+          });
+          break;
+
 // -------------------------------- -------- -----------------------------------
         default:
           res.statusCode = 404;
