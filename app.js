@@ -11,7 +11,17 @@ const server = http.createServer((req, res) => {
 
   switch (method) {
     case 'GET':
-      let pathArr = url.split('/');
+
+      let pathArr = url.split('/').map(num => {
+        if(num.toLowerCase() === 'pi') {
+          return Math.PI;
+        } else if(num.toLowerCase() === 'e') {
+          return Math.E;
+        } else {
+          return num;
+        }
+      });
+
       let pathRoot = pathArr[1];
 
 // ---------------------------------- Math -------------------------------------
@@ -35,6 +45,12 @@ const server = http.createServer((req, res) => {
             answer = Math.pow(num1, num2);
           } else if(operator === 'squareroot') {
             answer = Math.sqrt(num1)
+          } else if(operator === 'cuberoot') {
+            answer = Math.cbrt(num1)
+          } else if(operator === 'area') {
+            answer = num1 * num2
+          } else if(operator === 'volume') {
+            answer = num1 * num2 * parseFloat(pathArr[5])
           } else {
             answer = 'error';
           }
