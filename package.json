@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/donbobvanbirt/custom-apis/issues"
   },
-  "homepage": "https://github.com/donbobvanbirt/custom-apis#readme"
+  "homepage": "https://github.com/donbobvanbirt/custom-apis#readme",
+  "dependencies": {
+    "md5": "^2.2.1",
+    "moment": "^2.15.1"
+  }
 }

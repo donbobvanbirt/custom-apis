@@ -2,20 +2,19 @@ const PORT = 8000;
 
 const http = require('http');
 const qs = require('querystring');
+const md5 = require('md5');
+const moment = require('moment');
 
 const server = http.createServer((req, res) => {
 
   let { url, method } = req;
-  //let [ path, queryStr ] = url.split('?');
-  //let query = qs.parse(queryStr);
-  //console.log(`path: ${path} query: ${JSON.stringify(query)}`);
-
 
   switch (method) {
     case 'GET':
       let pathArr = url.split('/');
       let pathRoot = pathArr[1];
 
+// ---------------------------------- Math -------------------------------------
       switch (pathRoot) {
         case "math":
 
@@ -41,23 +40,52 @@ const server = http.createServer((req, res) => {
           }
 
           res.end(`${answer}\n`)
-
           break;
 
-        
+// -------------------------------- Gravatar -----------------------------------
+        case "gravatar":
+          let email = md5(pathArr[2]);
+          res.end(`http://www.gravatar.com/avatar/${email} \n`)
+          break;
 
+// -------------------------------- Analyzer -----------------------------------
+        case "analyze":
+          let sentence = decodeURI(pathArr[2]);
+
+          let wordCount = sentence.split(' ').length;
+          let charCount = sentence.replace(/\s/g, '').length;
+          let avLength = charCount / wordCount;
+
+          let values = {
+            wordCount,
+            charCount,
+            avLength
+          }
+
+          res.end(`${ JSON.stringify(values) }\n`)
+          break;
+
+// ---------------------------------- Age --------------------------------------
+        case "age":
+          let month = pathArr[2];
+          let day = pathArr[3];
+          let year = pathArr[4];
+
+          let age = moment().diff(`${year}${month}${day}`, 'years')
+
+          res.end(`${age}`);
+          break;
+
+// -------------------------------- -------- -----------------------------------
         default:
           res.statusCode = 404;
           res.end(`Err`);
       }
-
-
       break;
 
     default:
       res.statusCode = 404;
       res.end(`Not found`);
-
   }
 
   // switch (path) {
